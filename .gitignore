@@ -1,2 +1,4 @@
 api/dist
 api/node_modules
+engine/dist
+engine/node_modules
