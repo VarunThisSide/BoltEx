@@ -1,3 +1,4 @@
+import { DEPTH_UPDATE, TICKER_UPDATE } from "./trade/events.js";
 import { type RedisClientType, createClient } from "redis";
 import { ORDER_UPDATE, TRADE_ADDED } from "./types/index.js";
 import { type WsMessage } from "./types/toWs.js";
