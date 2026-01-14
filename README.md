@@ -1,0 +1,2 @@
+* Used redis for communication between 2 backends that is api and engine. Api is giving message to engine via redis queues. engine is giving back response via pub subs. when client hits api with a http request the redis client subscribes to the clientId to listen published message from engine, then does lpush to queues to send message to engine. when receiving back message from engine the redis client unsubscribe to that clientId and sends back response.
+* Redis is single threaded. there is no chance of concurrent exchanges.
