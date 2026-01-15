@@ -32,7 +32,7 @@ export class Orderbook{
         this.currentPrice=currentPrice || 0
     }
     ticker(){
-        return `${this.quoteAsset}_${this.baseAsset}`
+        return `${this.baseAsset}_${this.quoteAsset}`
     }
     getSnapshot(){
         return{
