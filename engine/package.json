@@ -13,5 +13,8 @@
   "dependencies": {
     "@types/redis": "^4.0.10",
     "redis": "^5.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.8"
   }
 }

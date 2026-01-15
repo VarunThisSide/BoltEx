@@ -143,6 +143,62 @@ export class Orderbook{
             executedQty
         })
     }
-}
 
-//getDepth need to be implemented
+    getDepth(){
+        let bids : [string,string][] = []
+        let asks : [string,string][] = []
+
+        let bidsObj : {[key:string]: number}={}
+        let asksObj : {[key:string]: number}={}
+        
+        for(let i=0;i<this.bids.length;i++){
+            const order=this.bids[i]
+            if(!bidsObj[order?.price]){
+                bidsObj[order?.price]=0
+            }
+            bidsObj[order?.price]+=(order?.quantity-order?.filled)
+        }
+        for(const price in bidsObj){
+            bids.push([price,bidsObj[price]?.toString()])
+        }
+
+        for(let i=0;i<this.asks.length;i++){
+            const order=this.asks[i]
+            if(!asksObj[order?.price]){
+                asksObj[order?.price]=0
+            }
+            asksObj[order?.price]+=(order?.quantity-order?.filled)
+        }
+        for(const price in asksObj){
+            asks.push([price,asksObj[price]?.toString()])
+        }
+        return({
+            bids,
+            asks
+        })
+    }
+
+    getOpenOrders(userId : string) : Order[]{
+        const asks=this.asks.filter(o=>o.userId===userId)
+        const bids=this.bids.filter(o=>o.userId===userId)
+        return [...asks,...bids]
+    }
+
+    cancelBid(order : Order){
+        const index=this.bids.findIndex(o=>o.orderId===order.orderId)
+        if(index!=-1){
+            const price=this.bids[index]?.price
+            this.bids.splice(index,1)
+            return price
+        }
+    }
+
+    cancelAsk(order : Order){
+        const index=this.asks.findIndex(o=>o.orderId===order.orderId)
+        if(index!=-1){
+            const price=this.asks[index]?.price
+            this.asks.splice(index,1)
+            return price
+        }
+    }
+}
