@@ -4,3 +4,6 @@ engine/dist
 engine/node_modules
 ws/dist
 ws/node_modules
+db/dist
+db/node_modules
+db/.env
