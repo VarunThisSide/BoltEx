@@ -32,7 +32,9 @@ export class RedisManager{
     private static instance : RedisManager
 
     constructor(){
-        this.client=createClient()
+        this.client=createClient({
+            url : 'redis://localhost:6379'
+        })
         this.client.connect()
     }
     public static getInstance(){

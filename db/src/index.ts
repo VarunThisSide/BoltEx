@@ -3,7 +3,11 @@ import { createClient } from 'redis'
 import type { DbMessage } from './types.js'
 
 const pgClient=new Client({
-    connectionString : process.env.DATABASE_URL
+    user: 'your_user',
+    host: 'localhost',
+    database: 'my_database',
+    password: 'your_password',
+    port: 5432,
 })
 pgClient.connect()
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { RedisManager } from "../RedisManager.js";
 import { GET_DEPTH } from "../types/index.js";
 
-const depthRouter=Router()
+export const depthRouter=Router()
 
 depthRouter.get('/',async (req,res)=>{
     const response=await RedisManager.getInstance().sendAndAwait({

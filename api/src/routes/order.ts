@@ -2,7 +2,7 @@ import { Router } from "express";
 import { RedisManager } from "../RedisManager.js";
 import { CANCEL_ORDER, CREATE_ORDER, GET_OPEN_ORDERS } from "../types/index.js";
 
-const orderRouter=Router()
+export const orderRouter=Router()
 
 orderRouter.post('/',async (req,res)=>{
     const {market,quantity,price,side,userId}=req.body

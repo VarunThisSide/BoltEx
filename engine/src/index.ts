@@ -6,7 +6,7 @@ async function main(){
     const redisClient=createClient()    //dedicated client for consuming from queue, as RedisManager instance is busy producing the message to send
     redisClient.connect()
     while(1){
-        const response=await redisClient.brPop('messages' as string,0)
+        const response=await redisClient.rPop('messages' as string)
         if(!response){
 
         }else{

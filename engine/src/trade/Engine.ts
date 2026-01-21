@@ -81,16 +81,20 @@ export class Engine{
                     if(order.side==='buy'){
                         const price=cancelOrderbook.cancelBid(order)
                         const left=order.quantity-order.filled
-                        this.balances.get(order.userId)?.[BASE_CURRENCY]?.locked-=left*order.price
-                        this.balances.get(order.userId)?.[BASE_CURRENCY]?.available+=left*order.price
+                        //@ts-ignore
+                        this.balances.get(order.userId)[BASE_CURRENCY].locked-=left*order.price
+                        //@ts-ignore
+                        this.balances.get(order.userId)[BASE_CURRENCY].available+=left*order.price
                         if(price){
                             this.sendUpdatedDepthAt(price.toString(),cancelMarket)
                         }
                     }else{
                         const price=cancelOrderbook.cancelAsk(order)
                         const left=order.quantity-order.filled
-                        this.balances.get(order.userId)?.[baseAsset]?.locked-=left
-                        this.balances.get(order.userId)?.[baseAsset]?.available+=left
+                        //@ts-ignore
+                        this.balances.get(order.userId)[baseAsset].locked-=left
+                        //@ts-ignore
+                        this.balances.get(order.userId)[baseAsset].available+=left
                         if(price){
                             this.sendUpdatedDepthAt(price.toString(),cancelMarket)
                         }
@@ -164,6 +168,7 @@ export class Engine{
         if(!orderbook){
             throw new Error('No orderbook found')
         }
+        //@ts-ignore
         this.checkAndLockFunds(baseAsset,quoteAsset,side,userId,price,quantity)
         
         const order : Order = {
@@ -176,6 +181,7 @@ export class Engine{
         }
         
         const {executedQty,fills}=orderbook.addOrder(order)
+        //@ts-ignore
         this.updateBalance(userId,baseAsset,quoteAsset,side,fills,executedQty)
 
         this.createDbTrades(fills, market, userId);
@@ -188,17 +194,25 @@ export class Engine{
     updateBalance(userId:string,baseAsset:string,quoteAsset:string,side:'buy'|'sell',fills:Fill[],executedQty:number){
         if(side==='buy'){
             fills.map((fill)=>{
-                this.balances.get(userId)?.[baseAsset]?.available+=fill.qty
-                this.balances.get(userId)?.[quoteAsset]?.locked-=(fill.qty*Number(fill.price))
-                this.balances.get(fill.otherUserId)?.[baseAsset]?.locked-=fill.qty
-                this.balances.get(fill.otherUserId)?.[quoteAsset]?.available+=fill.qty*Number(fill.price)
+                //@ts-ignore
+                this.balances.get(userId)[baseAsset].available+=fill.qty
+                //@ts-ignore
+                this.balances.get(userId)[quoteAsset].locked-=(fill.qty*Number(fill.price))
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[baseAsset].locked-=fill.qty
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[quoteAsset].available+=fill.qty*Number(fill.price)
             })
         }else{
             fills.map((fill)=>{
-                this.balances.get(userId)?.[baseAsset]?.locked-=fill.qty
-                this.balances.get(userId)?.[quoteAsset]?.available+=fill.qty*Number(fill.price)
-                this.balances.get(fill.otherUserId)?.[baseAsset]?.available+=fill.qty
-                this.balances.get(fill.otherUserId)?.[quoteAsset]?.locked-=fill.qty*Number(fill.price)
+                //@ts-ignore
+                this.balances.get(userId)[baseAsset].locked-=fill.qty
+                //@ts-ignore
+                this.balances.get(userId)[quoteAsset].available+=fill.qty*Number(fill.price)
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[baseAsset].available+=fill.qty
+                //@ts-ignore
+                this.balances.get(fill.otherUserId)[quoteAsset].locked-=fill.qty*Number(fill.price)
             })
         }
     }
@@ -208,14 +222,18 @@ export class Engine{
             if((this.balances.get(userId)?.[quoteAsset]?.available || 0) < Number(quantity)*Number(price)){
                 throw new Error('Insufficient Balance')
             }
-            this.balances.get(userId)?.[quoteAsset]?.locked+=Number(quantity)*Number(price)
-            this.balances.get(userId)?.[quoteAsset]?.available-=Number(quantity)*Number(price)
+            //@ts-ignore
+            this.balances.get(userId)[quoteAsset].locked+=Number(quantity)*Number(price)
+            //@ts-ignore
+            this.balances.get(userId)[quoteAsset].available-=Number(quantity)*Number(price)
         }else{
             if((this.balances.get(userId)?.[baseAsset]?.available || 0) < Number(quantity)){
                 throw new Error('Insufficient Funds')
             }
-            this.balances.get(userId)?.[baseAsset]?.locked+=Number(quantity)
-            this.balances.get(userId)?.[baseAsset]?.available-=Number(quantity)
+            //@ts-ignore
+            this.balances.get(userId)[baseAsset].locked+=Number(quantity)
+            //@ts-ignore
+            this.balances.get(userId)[baseAsset].available-=Number(quantity)
         }
     }
 
@@ -229,7 +247,8 @@ export class Engine{
                 }
             })
         }else{
-            userBalance[BASE_CURRENCY]?.available+=amount
+            //@ts-ignore
+            userBalance[BASE_CURRENCY].available+=amount
         }
     }
 
