@@ -7,3 +7,5 @@ ws/node_modules
 db/dist
 db/node_modules
 db/.env
+mm/dist
+mm/node_modules
