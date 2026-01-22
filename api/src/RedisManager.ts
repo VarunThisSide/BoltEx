@@ -7,8 +7,22 @@ export class RedisManager{
     private client : RedisClientType    //made for redis pub subs (client for engine)
     private static instance : RedisManager
     private constructor(){
-        this.client=createClient()
-        this.publisher=createClient()
+        this.client=createClient({
+            username : 'default',
+            password : process.env.REDIS_PASSWORD || '',
+            socket : {
+                host: process.env.REDIS_HOST,
+                port: 12819
+            }
+        })
+        this.publisher=createClient({
+            username : 'default',
+            password : process.env.REDIS_PASSWORD || '',
+            socket : {
+                host: process.env.REDIS_HOST,
+                port: 12819
+            }
+        })
         this.client.connect()
         this.publisher.connect()
     }

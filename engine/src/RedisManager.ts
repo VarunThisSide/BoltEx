@@ -33,7 +33,12 @@ export class RedisManager{
 
     constructor(){
         this.client=createClient({
-            url : 'redis://localhost:6379'
+            username : 'default',
+            password : process.env.REDIS_PASSWORD || '',
+            socket : {
+                host: process.env.REDIS_HOST,
+                port: 12819
+            }
         })
         this.client.connect()
     }

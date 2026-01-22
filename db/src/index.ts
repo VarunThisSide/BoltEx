@@ -12,7 +12,14 @@ const pgClient=new Client({
 pgClient.connect()
 
 async function main(){
-    const redisClient=createClient()
+    const redisClient=createClient({
+            username : 'default',
+            password : process.env.REDIS_PASSWORD || '',
+            socket : {
+                host: process.env.REDIS_HOST,
+                port: 12819
+            }
+        })
     await redisClient.connect()
     while(true){
         const response=await redisClient.rPop('db_processor' as string)

@@ -7,7 +7,14 @@ export class SubscriptionManager{
     private reverseSubscriptions : Map<string,string[]> = new Map()
     private redisClient : RedisClientType
     private constructor(){
-        this.redisClient=createClient()
+        this.redisClient=createClient({
+            username : 'default',
+            password : process.env.REDIS_PASSWORD || '',
+            socket : {
+                host: process.env.REDIS_HOST,
+                port: 12819
+            }
+        })
         this.redisClient.connect()
     }
     public static getInstance(){
