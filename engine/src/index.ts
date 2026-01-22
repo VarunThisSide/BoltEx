@@ -1,5 +1,11 @@
 import {createClient} from "redis";
 import { Engine } from "./trade/Engine.js";
+import express from "express";
+
+const app=express()
+const PORT = process.env.PORT || 3000; 
+app.get('/health', (req, res) => res.send('Engine is running'));
+app.listen(PORT, () => console.log(`Health check listening on ${PORT}`));
 
 async function main(){
     const engine=new Engine();
