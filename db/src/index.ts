@@ -1,6 +1,13 @@
 import {Client} from 'pg'
 import { createClient } from 'redis'
 import type { DbMessage } from './types.js'
+import express from 'express'
+
+const app = express();
+const PORT = process.env.PORT || 3000; 
+
+app.get('/health', (req, res) => res.send('Engine is running'));
+app.listen(PORT, () => console.log(`Health check listening on ${PORT}`));
 
 const pgClient=new Client({
     connectionString: process.env.DATABASE_URL,
