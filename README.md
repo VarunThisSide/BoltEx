@@ -20,7 +20,7 @@ The project is designed as a distributed system, separated into four core micros
 - **Languages:** TypeScript (Primary), JavaScript  
 - **Backend:** Node.js, Express.js 
 - **Real-time:** WebSockets (`ws`), Redis (Pub/Sub & Queues)  
-- **Database:** PostgreSQL (with Prisma ORM), Redis  
+- **Database:** PostgreSQL, Redis  
 - **DevOps:** Docker, Docker Compose  
 
 ---
