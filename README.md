@@ -6,6 +6,8 @@ BoltEx is a full-stack, real-time trading exchange platform built with a modular
 
 ## 🏗️ Architecture Overview
 
+![Architecture Diagram](./architecture.webp)
+
 The project is designed as a distributed system, separated into four core microservices:
 
 - **Engine:** The core logic written in TypeScript that manages the order book, processes limit/market orders, and executes matches.  
